@@ -17,4 +17,3 @@ Created an Azure Storage Account using the free tier to learn basic cloud deploy
 ![Resource Group](./screenshots/resource-group.png)
 ![Storage Account](./screenshots/storage-account.png)
 ![Storage Account](./screenshots/storage-account-deployment.png)
-

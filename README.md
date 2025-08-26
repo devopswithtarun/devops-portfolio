@@ -10,8 +10,6 @@ This repo documents my journey as a Computer Science Engineer transitioning into
 3. [Terraform Infrastructure](./terraform-iac/README.md) - Infrastructure as Code with Terraform
 4. [CI/CD Pipeline](./cicd-pipeline/README.md) - Automated build & deployment pipeline
 
----
-
 **Tech Stack:**  
 - Azure Cloud  
 - Terraform  
@@ -19,6 +17,5 @@ This repo documents my journey as a Computer Science Engineer transitioning into
 - Linux (WSL)  
 - Docker & CI/CD (future)
 
----
-
 Follow my journey: [LinkedIn]() | [Email](mailto:devopswithtarun@gmail.com)
+
