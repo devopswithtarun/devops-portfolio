@@ -39,7 +39,7 @@ This portfolio documents my **hands-on journey** from the basics to advanced pro
 - Used Terraform to provision an **Azure Resource Group**.
 - Learned `.gitignore` best practices to avoid pushing `.terraform` folders.
 - Fixed GitHub large file errors by cleaning repo cache.
-👉 [View Project](./terraform-iac/day3-rg/README.md)
+👉 [View Project](/terraform-iac/README.md)
 
 ---
 
@@ -72,4 +72,6 @@ This portfolio documents my **hands-on journey** from the basics to advanced pro
 - 📧 Email: devopswithtarun@gmail.com  
 - 🌍 Location: Manchester, UK  
 - 🔗 GitHub: [devopswithtarun](https://github.com/devopswithtarun)
+
+
 
