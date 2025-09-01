@@ -18,17 +18,11 @@ jobs:
 
     - name: Install Terraform
       run: |
-        # Install required packages
         sudo apt-get update && sudo apt-get install -y unzip curl
-    
-        # Download Terraform zip
-        curl -fsSL https://releases.hashicorp.com/terraform/${TERRAFORM_VERSION}/terraform_${TERRAFORM_VERSION}_linux_amd64.zip -o terraform.zip
-    
-        # Unzip to /usr/local/bin with overwrite, quietly
+        curl -fsSL https://releases.hashicorp.com/terraform/1.9.8/terraform_1.9.8_linux_amd64.zip -o terraform.zip
         sudo unzip -o -q terraform.zip -d /usr/local/bin/
-    
-        # Verify Terraform installation
         terraform version
+
 
     - name: Terraform Init
       working-directory: ./terraform-iac/day6-multi-vm
