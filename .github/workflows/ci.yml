@@ -1,0 +1,32 @@
+name: CI
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    - name: Say Hello
+      run: echo "Hello from GitHub Actions!"
+
+    - name: Install Terraform
+      run: |
+        sudo apt-get update && sudo apt-get install -y unzip
+        curl -fsSL https://releases.hashicorp.com/terraform/1.9.8/terraform_1.9.8_linux_amd64.zip -o terraform.zip
+        sudo unzip terraform.zip -d /usr/local/bin/
+        terraform version
+
+    - name: Terraform Init
+      working-directory: ./terraform-iac/day6-multi-vm
+      run: terraform init
+
+    - name: Terraform Validate
+      working-directory: ./terraform-iac/day6-multi-vm
+      run: terraform validate
