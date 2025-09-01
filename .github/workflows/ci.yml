@@ -30,13 +30,6 @@ jobs:
         # Verify Terraform installation
         terraform version
 
-    - name: Install Terraform
-      run: |
-        sudo apt-get update && sudo apt-get install -y unzip
-        curl -fsSL https://releases.hashicorp.com/terraform/1.9.8/terraform_1.9.8_linux_amd64.zip -o terraform.zip
-        sudo unzip terraform.zip -d /usr/local/bin/
-        terraform version
-
     - name: Terraform Init
       working-directory: ./terraform-iac/day6-multi-vm
       run: terraform init
