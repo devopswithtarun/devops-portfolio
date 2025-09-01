@@ -1,0 +1,21 @@
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+# azure-pipelines.yml
+trigger:
+- main
+
+pool:
+  vmImage: ubuntu-latest
+
+steps:
+- script: echo "Hello from Azure DevOps Pipeline!"
+  displayName: "Print Hello World"
+
+- script: |
+    echo "Checking Terraform version"
+    terraform version
+  displayName: "Check Terraform Version (if installed)"
+
