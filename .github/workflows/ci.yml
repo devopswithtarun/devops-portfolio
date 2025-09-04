@@ -1,33 +1,36 @@
-name: CI
-
+name: Terraform CI/CD
 on:
   push:
     branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
+  workflow_dispatch:
 
 jobs:
-  build:
+  terraform:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: terraform-iac/day6-multi-vm
+
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v3
+      - name: Checkout
+        uses: actions/checkout@v3
 
-    - name: Say Hello
-      run: echo "Hello from GitHub Actions!"
+      - name: Install Terraform (manual method)
+        run: |
+          sudo apt-get update && sudo apt-get install -y unzip curl
+          curl -fsSL https://releases.hashicorp.com/terraform/1.9.8/terraform_1.9.8_linux_amd64.zip -o terraform.zip
+          sudo unzip -o -q terraform.zip -d /usr/local/bin/
+          terraform version
 
-    - name: Install Terraform
-      run: |
-        sudo apt-get update && sudo apt-get install -y unzip curl
-        curl -fsSL https://releases.hashicorp.com/terraform/1.9.8/terraform_1.9.8_linux_amd64.zip -o terraform.zip
-        sudo unzip -o -q terraform.zip -d /usr/local/bin/
-        terraform version
+      - name: Terraform Init
+        run: terraform init
 
+      - name: Terraform Validate
+        run: terraform validate
 
-    - name: Terraform Init
-      working-directory: ./terraform-iac/day6-multi-vm
-      run: terraform init
+      - name: Terraform Plan
+        run: terraform plan
 
-    - name: Terraform Validate
-      working-directory: ./terraform-iac/day6-multi-vm
-      run: terraform validate
+      - name: Terraform Apply (manual trigger only)
+        if: github.event_name == 'workflow_dispatch'
+        run: terraform apply -auto-approve
