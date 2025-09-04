@@ -23,16 +23,13 @@ variable "admin_username" {
 }
 
 variable "ssh_public_key" {
-  description = "SSH public key for authentication"
   type        = string
+  description = "SSH public key for VM"
 }
+
 
 variable "allowed_ssh_cidr" {
   description = "CIDR block allowed to SSH into the VMs"
   type        = string
 }
 
-variable "ssh_public_key_path" {
-  description = "Path to the SSH public key file"
-  type        = string
-}
