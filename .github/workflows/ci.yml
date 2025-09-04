@@ -10,6 +10,8 @@ jobs:
     defaults:
       run:
         working-directory: terraform-iac/day6-multi-vm
+    env:
+      TF_VAR_ssh_public_key: ${{ secrets.TF_VAR_ssh_public_key }}
 
     steps:
       - name: Checkout
