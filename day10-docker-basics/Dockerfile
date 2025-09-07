@@ -1,5 +1,4 @@
 # Use the official Nginx image as a base
-FROM nginx:latest
-
+FROM nginx:alpine
 # Copy our static web page into Nginx's default folder
-COPY . /usr/share/nginx/html
+COPY app/index.html /usr/share/nginx/html/index.html
