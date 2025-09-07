@@ -1,0 +1,31 @@
+trigger:
+- main
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+steps:
+- checkout: self
+
+- task: AzureCLI@2
+  inputs:
+    azureSubscription: 'ado-terraform-connection'   # Must match your Service Connection name
+    scriptType: bash
+    scriptLocation: inlineScript
+    inlineScript: |
+      # Install Terraform
+      sudo apt-get update && sudo apt-get install -y unzip curl
+      curl -fsSL https://releases.hashicorp.com/terraform/1.9.8/terraform_1.9.8_linux_amd64.zip -o terraform.zip
+      sudo unzip -o -q terraform.zip -d /usr/local/bin/
+      
+      # Go to Terraform directory
+      cd terraform-iac/day6-multi-vm
+      
+      # Initialize and validate
+      terraform init
+      terraform validate
+      
+      # Plan using the SSH key from environment variable
+      terraform plan -out=tfplan
+  env:
+    TF_VAR_ssh_public_key: $(TF_VAR_SSH_PUBLIC_KEY)
