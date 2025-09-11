@@ -1,5 +1,6 @@
 trigger:
 - main
+- day11-azure-container-registry
 
 pool:
   vmImage: ubuntu-latest
@@ -13,6 +14,7 @@ variables:
 steps:
 # Step 1: Checkout the repo
 - checkout: self
+  clean: true
 
 # Step 2: Build and push Docker image to ACR
 - task: Docker@2
