@@ -25,7 +25,7 @@ steps:
   displayName: Build and Push Docker Image to ACR
   inputs:
     command: 'buildAndPush'
-    repository: '$(acrLoginServer)/$(imageName)'      # <- include your ACR login server
+    repository: 'tarundevopsacr.azurecr.io/day10-nginx'      
     Dockerfile: '$(Build.SourcesDirectory)/day10-docker-basics/Dockerfile'
     tags: |
       $(tag)
