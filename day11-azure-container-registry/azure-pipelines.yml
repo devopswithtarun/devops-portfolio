@@ -1,0 +1,26 @@
+trigger:
+- main
+
+pool:
+  vmImage: ubuntu-latest
+
+variables:
+  imageName: day10-nginx        # Name of the image in ACR
+  tag: latest                   # Tag for the image
+  acrName: tarundevopsacr       # Your ACR name
+  acrLoginServer: tarundevopsacr.azurecr.io  # Full login server
+
+steps:
+# Step 1: Checkout the repo
+- checkout: self
+
+# Step 2: Build and push Docker image to ACR
+- task: Docker@2
+  displayName: Build and Push Docker Image to ACR
+  inputs:
+    containerRegistry: 'tarundevopsacr-service-connection'  # The service connection you create in Azure DevOps
+    repository: '$(imageName)'                              # Image name inside ACR
+    command: 'buildAndPush'
+    Dockerfile: '$(Build.SourcesDirectory)/day10-docker-basics/Dockerfile'
+    tags: |
+      $(tag)
