@@ -30,6 +30,8 @@ steps:
     Dockerfile: '$(Build.SourcesDirectory)/day10-docker-basics/Dockerfile'
     tags: |
       $(tag)
+    azureSubscription: 'tarundevopsacr-service-connection'  # your ARM service connection
+    azureContainerRegistry: '$(acrName)'
 
 # Optional: verify image in ACR
 - script: |
