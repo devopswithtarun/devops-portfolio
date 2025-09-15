@@ -1,10 +1,6 @@
 trigger:
 - main
-- day11-azure-container-registry   # Add your working branch to auto-trigger
-
-pr:
-- main
-- day11-azure-container-registry   # Also trigger on PRs to these branches
+- day11-azure-container-registry
 
 pool:
   vmImage: ubuntu-latest
@@ -18,22 +14,21 @@ variables:
 steps:
 # Step 1: Checkout repo
 - checkout: self
-  clean: true   # Ensures no cached files, always fresh
+  clean: true
 
 # Step 2: Build and push Docker image to ACR
 - task: Docker@2
   displayName: Build and Push Docker Image to ACR
   inputs:
+    containerRegistry: 'tarundevopsacr-service-connection-new'   # 👈 NEW service connection name
+    repository: '$(imageName)'
     command: 'buildAndPush'
-    repository: 'tarundevopsacr.azurecr.io/day10-nginx'      
     Dockerfile: '$(Build.SourcesDirectory)/day10-docker-basics/Dockerfile'
     tags: |
       $(tag)
-    azureSubscription: 'tarundevopsacr-service-connection'  # your ARM service connection
-    azureContainerRegistry: '$(acrName)'
 
-# Optional: verify image in ACR
+# Step 3: Verify image in ACR
 - script: |
-    echo "Listing images in ACR"
+    echo "Listing images in ACR..."
     az acr repository list --name $(acrName) --output table
   displayName: 'Verify ACR Image'
