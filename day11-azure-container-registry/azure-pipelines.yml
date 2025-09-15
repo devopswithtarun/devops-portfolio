@@ -1,15 +1,17 @@
 trigger:
-- main
-- day11-azure-container-registry
+  branches:
+    include:
+      - main
+      - day11-azure-container-registry
 
 pool:
-  vmImage: ubuntu-latest
+  vmImage: 'ubuntu-latest'
 
 variables:
-  imageName: day10-nginx
-  tag: latest
-  acrName: tarundevopsacr
-  acrLoginServer: tarundevopsacr.azurecr.io
+  imageName: 'day10-nginx'
+  tag: 'latest'
+  acrName: 'tarundevopsacr'
+  acrLoginServer: 'tarundevopsacr.azurecr.io'
 
 steps:
 # Step 1: Checkout repo
@@ -18,17 +20,22 @@ steps:
 
 # Step 2: Build and push Docker image to ACR
 - task: Docker@2
-  displayName: Build and Push Docker Image to ACR
+  displayName: 'Build and Push Docker Image to ACR'
   inputs:
-    containerRegistry: 'tarundevopsacr-service-connection-new'   # 👈 NEW service connection name
-    repository: '$(imageName)'
+    containerRegistry: 'tarundevopsacr-docker-connection'   # ✅ Updated to Docker registry connection
+    repository: '$(acrLoginServer)/$(imageName)'            # Full ACR path
     command: 'buildAndPush'
-    Dockerfile: '$(Build.SourcesDirectory)/day10-docker-basics/Dockerfile'
+    Dockerfile: 'day10-docker-basics/Dockerfile'
     tags: |
       $(tag)
 
 # Step 3: Verify image in ACR
-- script: |
-    echo "Listing images in ACR..."
-    az acr repository list --name $(acrName) --output table
+- task: AzureCLI@2
   displayName: 'Verify ACR Image'
+  inputs:
+    azureSubscription: 'tarundevopsacr-service-connection-new'  # Use Az service connection to run az commands
+    scriptType: 'bash'
+    scriptLocation: 'inlineScript'
+    inlineScript: |
+      echo "Listing images in ACR..."
+      az acr repository list --name $(acrName) --output table
