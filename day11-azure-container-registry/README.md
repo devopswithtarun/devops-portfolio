@@ -89,6 +89,8 @@ az container show \
 - container-azure portal
 - resource group
 - Webpage
+- azure-Devops-Failure jobs
+- azure-devops-success-job
 
 ## ✅ Skills learned
 - Azure-native container registry setup
@@ -96,3 +98,52 @@ az container show \
 - Deploying a container directly in Azure
 - Integrating ACR with Azure DevOps pipelines
 - End-to-end CI/CD for containers inside Azure
+
+### 👩🏻‍💻📓✍🏻💡IMPORTANT NOTES👩🏻‍💻📓✍🏻💡
+
+### 🎁🎁🎁 Steps to Create the Correct Docker Registry Service Connection
+# Registry type:
+-Select Azure Container Registry.
+# Authentication Type:
+- Choose Service principal (automatic). This lets Azure DevOps handle the credentials automatically.
+# Service Connection Details:
+- Azure subscription: Select the subscription where your ACR lives (the one you used for tarundevopsacr-service-connection-new).
+# Azure Container Registry: Select your ACR from the dropdown (e.g., tarundevopsacr).
+# Service Connection Name:
+- Give it a descriptive name, e.g.,
+- tarundevopsacr-docker-connection
+# Description (optional):
+- Add anything helpful, e.g., Docker Registry connection for tarundevopsacr.
+# Security:
+- Check Grant access permission to all pipelines if you want all pipelines to use it automatically.
+# Save the connection.
+
+### 📢📢📢 WSL resolve DNS, Let’s fix this step by step:
+1️⃣ Configure WSL to stop auto-generating /etc/resolv.conf
+Inside your WSL terminal:
+sudo nano /etc/wsl.conf
+
+Paste:
+[network]
+generateResolvConf = false
+Save and exit (Ctrl+O, Enter, Ctrl+X).
+2️⃣ Remove existing resolv.conf if present
+sudo rm -f /etc/resolv.conf
+3️⃣ Create a new resolv.conf pointing to Windows DNS
+We’ll use your router (192.168.1.1) and a public DNS (8.8.8.8) as fallback:
+sudo bash -c "echo -e 'nameserver 192.168.1.1\nnameserver 8.8.8.8' > /etc/resolv.conf"
+4️⃣ Lock the resolv.conf
+sudo chattr +i /etc/resolv.conf
+This prevents WSL from overwriting it.
+5️⃣ Shutdown and restart WSL
+In PowerShell:
+wsl --shutdown
+wsl
+6️⃣ Test DNS
+Inside WSL:
+nslookup login.microsoftonline.com
+ping login.microsoftonline.com
+You should now see proper IP addresses.
+✅ Once DNS works, az login will work, and we can finally create the new Azure DevOps → ACR service connection cleanly.
+
+
